@@ -1,33 +1,27 @@
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class trainconsistmangementapp {
+public class TrainConsistmangementApp  {
+//usecase6
         public static void main(String[] args) {
-// usecase 2
-        System.out.println("====================================");
-        System.out.println("UC2 - Add Passenger Bogies to Train");
-        System.out.println("====================================");
 
-        ArrayList<String> passengerBogies = new ArrayList<>();
+                System.out.println("====================================");
+                System.out.println("UC6 - Map Bogie to Capacity (HashMap)");
+                System.out.println("====================================\n");
 
-        passengerBogies.add("Sleeper");
-        passengerBogies.add("AC Chair");
-        passengerBogies.add("First Class");
+                Map<String, Integer> capacityMap = new HashMap<>();
 
-        System.out.println("\nAfter Adding Bogies:");
-        System.out.println("Passenger Bogies : " + passengerBogies);
+                capacityMap.put("First Class", 24);
+                capacityMap.put("Cargo", 120);
+                capacityMap.put("Sleeper", 72);
+                capacityMap.put("AC Chair", 56);
 
-        passengerBogies.remove("AC Chair");
+                System.out.println("Bogie Capacity Details:\n");
 
-        System.out.println("\nAfter Removing 'AC Chair':");
-        System.out.println("Passenger Bogies : " + passengerBogies);
+                for (Map.Entry<String, Integer> entry : capacityMap.entrySet()) {
+                        System.out.println(entry.getKey() + " -> " + entry.getValue());
+                }
 
-        System.out.println("\nChecking if 'Sleeper' exists:");
-        boolean exists = passengerBogies.contains("Sleeper");
-        System.out.println("Contains Sleeper? : " + exists);
-
-        System.out.println("\nFinal Train Passenger Consist:");
-        System.out.println(passengerBogies);
-
-        System.out.println("\nUC2 operations completed successfully...");
-    }
+                System.out.println("\nUC6 bogie-capacity mapping completed...");
+        }
 }
