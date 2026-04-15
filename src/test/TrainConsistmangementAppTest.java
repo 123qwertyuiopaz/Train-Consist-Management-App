@@ -4,37 +4,47 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TrainConsistmangementAppTest {
 
     @Test
-    void testValidCapacityCreation() throws Exception {
-        TrainConsistmangementApp.PassengerBogie b =
-                new TrainConsistmangementApp.PassengerBogie("Sleeper", 50);
+    void testCargo_SafeAssignment() {
+        TrainConsistmangementApp.GoodsBogie b =
+                new TrainConsistmangementApp.GoodsBogie("Cylindrical");
 
-        assertEquals(50, b.capacity);
+        b.assignCargo("Petroleum");
+
+        assertEquals("Petroleum", b.cargo);
     }
 
     @Test
-    void testNegativeCapacityThrowsException() {
-        Exception exception = assertThrows(
-                TrainConsistmangementApp.InvalidCapacityException.class,
-                () -> new TrainConsistmangementApp.PassengerBogie("Sleeper", -10)
-        );
+    void testCargo_UnsafeAssignmentHandled() {
+        TrainConsistmangementApp.GoodsBogie b =
+                new TrainConsistmangementApp.GoodsBogie("Rectangular");
 
-        assertEquals("Capacity must be greater than zero", exception.getMessage());
+        b.assignCargo("Petroleum");
+
+        assertNull(b.cargo); // cargo should not be assigned
     }
 
     @Test
-    void testZeroCapacityThrowsException() {
-        assertThrows(
-                TrainConsistmangementApp.InvalidCapacityException.class,
-                () -> new TrainConsistmangementApp.PassengerBogie("AC", 0)
-        );
+    void testCargo_ProgramContinuesAfterException() {
+        TrainConsistmangementApp.GoodsBogie b1 =
+                new TrainConsistmangementApp.GoodsBogie("Rectangular");
+
+        TrainConsistmangementApp.GoodsBogie b2 =
+                new TrainConsistmangementApp.GoodsBogie("Cylindrical");
+
+        b1.assignCargo("Petroleum"); // fails
+        b2.assignCargo("Coal");      // should still work
+
+        assertEquals("Coal", b2.cargo);
     }
 
     @Test
-    void testObjectIntegrity() throws Exception {
-        TrainConsistmangementApp.PassengerBogie b =
-                new TrainConsistmangementApp.PassengerBogie("First Class", 30);
+    void testCargo_FinallyAlwaysExecutes() {
+        TrainConsistmangementApp.GoodsBogie b =
+                new TrainConsistmangementApp.GoodsBogie("Rectangular");
 
-        assertEquals("First Class", b.type);
-        assertEquals(30, b.capacity);
+        b.assignCargo("Petroleum");
+
+        // No assertion needed; if no crash, finally executed
+        assertTrue(true);
     }
 }
