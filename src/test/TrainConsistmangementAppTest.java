@@ -1,39 +1,31 @@
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
-import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TrainConsistmangementAppTest {
 
     @Test
-    void testTotalSeatCalculation() {
-        List<Bogie> bogies = new ArrayList<>();
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 56));
-        bogies.add(new Bogie("First Class", 24));
-        bogies.add(new Bogie("Sleeper", 70));
-
-        int total = TrainConsistmangementApp.calculateTotalCapacity(bogies);
-
-        assertEquals(222, total);
+    void testValidTrainID() {
+        assertTrue(TrainConsistmangementApp.isValidTrainId("TRN-1234"));
     }
 
     @Test
-    void testEmptyBogieList() {
-        List<Bogie> bogies = new ArrayList<>();
-
-        int total = TrainConsistmangementApp.calculateTotalCapacity(bogies);
-
-        assertEquals(0, total);
+    void testInvalidTrainID() {
+        assertFalse(TrainConsistmangementApp.isValidTrainId("TRN12A"));
     }
 
     @Test
-    void testSingleBogie() {
-        List<Bogie> bogies = new ArrayList<>();
-        bogies.add(new Bogie("Sleeper", 50));
+    void testValidCargoCode() {
+        assertTrue(TrainConsistmangementApp.isValidCargoCode("PET-AB"));
+    }
 
-        int total = TrainConsistmangementApp.calculateTotalCapacity(bogies);
+    @Test
+    void testInvalidCargoCode() {
+        assertFalse(TrainConsistmangementApp.isValidCargoCode("PET-ab"));
+    }
 
-        assertEquals(50, total);
+    @Test
+    void testEmptyInput() {
+        assertFalse(TrainConsistmangementApp.isValidTrainId(""));
+        assertFalse(TrainConsistmangementApp.isValidCargoCode(""));
     }
 }

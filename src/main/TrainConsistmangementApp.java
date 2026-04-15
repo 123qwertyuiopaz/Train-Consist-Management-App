@@ -1,45 +1,49 @@
-import java.util.ArrayList;
-import java.util.List;
-
-class Bogie {
-    String name;
-    int capacity;
-
-    Bogie(String name, int capacity) {
-        this.name = name;
-        this.capacity = capacity;
-    }
-}
+import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class TrainConsistmangementApp {
 
-    public static int calculateTotalCapacity(List<Bogie> bogies) {
-        return bogies.stream()
-                .map(b -> b.capacity)
-                .reduce(0, Integer::sum);
+    // Method to validate Train ID
+    public static boolean isValidTrainId(String trainId) {
+        String trainRegex = "TRN-\\d{4}";
+        Pattern pattern = Pattern.compile(trainRegex);
+        Matcher matcher = pattern.matcher(trainId);
+        return matcher.matches();
+    }
+
+    // Method to validate Cargo Code
+    public static boolean isValidCargoCode(String cargoCode) {
+        String cargoRegex = "PET-[A-Z]{2}";
+        Pattern pattern = Pattern.compile(cargoRegex);
+        Matcher matcher = pattern.matcher(cargoCode);
+        return matcher.matches();
     }
 
     public static void main(String[] args) {
 
-        System.out.println("====================================");
-        System.out.println("UC10 - Count Total Seats in Train");
-        System.out.println("====================================");
+        System.out.println("===========================================");
+        System.out.println("UC11 - Validate Train ID and Cargo Code");
+        System.out.println("===========================================");
 
-        List<Bogie> bogies = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
 
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 56));
-        bogies.add(new Bogie("First Class", 24));
-        bogies.add(new Bogie("Sleeper", 70));
+        // Accept input
+        System.out.print("Enter Train ID (Format: TRN-1234): ");
+        String trainId = scanner.nextLine();
 
-        System.out.println("\nBogies in Train:");
-        for (Bogie b : bogies) {
-            System.out.println(b.name + " -> " + b.capacity);
-        }
+        System.out.print("Enter Cargo Code (Format: PET-AB): ");
+        String cargoCode = scanner.nextLine();
 
-        int total = calculateTotalCapacity(bogies);
+        // Validation
+        boolean trainValid = isValidTrainId(trainId);
+        boolean cargoValid = isValidCargoCode(cargoCode);
 
-        System.out.println("\nTotal Seating Capacity of Train: " + total);
-        System.out.println("\nUC10 aggregation completed...");
+        // Output
+        System.out.println("\nValidation Results:");
+        System.out.println("Train ID Valid: " + trainValid);
+        System.out.println("Cargo Code Valid: " + cargoValid);
+
+        System.out.println("\nUC11 validation completed...");
     }
 }
