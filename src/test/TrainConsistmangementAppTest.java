@@ -1,31 +1,40 @@
 import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TrainConsistmangementAppTest {
 
     @Test
-    void testValidTrainID() {
-        assertTrue(TrainConsistmangementApp.isValidTrainId("TRN-1234"));
+    void testSafety_AllBogiesValid() {
+        List<TrainConsistmangementApp.GoodsBogie> list = new ArrayList<>();
+        list.add(new TrainConsistmangementApp.GoodsBogie("Cylindrical", "Petroleum"));
+        list.add(new TrainConsistmangementApp.GoodsBogie("Open", "Coal"));
+
+        assertTrue(TrainConsistmangementApp.isSafe(list));
     }
 
     @Test
-    void testInvalidTrainID() {
-        assertFalse(TrainConsistmangementApp.isValidTrainId("TRN12A"));
+    void testSafety_CylindricalInvalidCargo() {
+        List<TrainConsistmangementApp.GoodsBogie> list = new ArrayList<>();
+        list.add(new TrainConsistmangementApp.GoodsBogie("Cylindrical", "Coal"));
+
+        assertFalse(TrainConsistmangementApp.isSafe(list));
     }
 
     @Test
-    void testValidCargoCode() {
-        assertTrue(TrainConsistmangementApp.isValidCargoCode("PET-AB"));
+    void testSafety_MixedBogiesWithViolation() {
+        List<TrainConsistmangementApp.GoodsBogie> list = new ArrayList<>();
+        list.add(new TrainConsistmangementApp.GoodsBogie("Cylindrical", "Petroleum"));
+        list.add(new TrainConsistmangementApp.GoodsBogie("Cylindrical", "Coal"));
+
+        assertFalse(TrainConsistmangementApp.isSafe(list));
     }
 
     @Test
-    void testInvalidCargoCode() {
-        assertFalse(TrainConsistmangementApp.isValidCargoCode("PET-ab"));
-    }
+    void testSafety_EmptyList() {
+        List<TrainConsistmangementApp.GoodsBogie> list = new ArrayList<>();
 
-    @Test
-    void testEmptyInput() {
-        assertFalse(TrainConsistmangementApp.isValidTrainId(""));
-        assertFalse(TrainConsistmangementApp.isValidCargoCode(""));
+        assertTrue(TrainConsistmangementApp.isSafe(list));
     }
 }
